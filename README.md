@@ -1,2 +1,2 @@
-# -Emerald
+# Emerald
 a digital audio editor
