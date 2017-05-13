@@ -1,2 +1,2 @@
-# Emerald
+# VitalSigns
 a digital audio editor
