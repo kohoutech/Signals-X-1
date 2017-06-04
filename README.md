@@ -1,2 +1,2 @@
-# VitalSigns
-a digital audio editor
+# Signals X-1
+a digital audio multitrack recorder
