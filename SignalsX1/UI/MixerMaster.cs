@@ -25,7 +25,7 @@ using System.Windows.Forms;
 using System.Drawing;
 using System.Drawing.Drawing2D;
 using Signals.Widgets;
-using Signals.Engine;
+using Signals.Project;
 
 namespace Signals.UI
 {
@@ -209,10 +209,10 @@ namespace Signals.UI
 
         public void timerTick()
         {
-            float leftLevel = project.signalsA.getLeftLevel();
-            leftMeter.setLevel(leftLevel);            
-            float rightLevel = project.signalsA.getRightLevel();
-            rightMeter.setLevel(rightLevel);            
+            //float leftLevel = project.waverly.getLeftLevel();
+            //leftMeter.setLevel(leftLevel);
+            //float rightLevel = project.waverly.getRightLevel();
+            //rightMeter.setLevel(rightLevel);            
         }
 
 //-----------------------------------------------------------------------------

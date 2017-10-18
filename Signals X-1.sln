@@ -1,9 +1,9 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 11.00
 # Visual Studio 2010
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SignalsA", "SignalsA\SignalsA.csproj", "{B020AA9C-F1C4-4469-AFCB-2A2EBB3B523B}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SignalsX1", "SignalsX1\SignalsX1.csproj", "{B020AA9C-F1C4-4469-AFCB-2A2EBB3B523B}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "SignalsB", "SignalsB\SignalsB.vcxproj", "{DA000009-35C4-47DE-86EA-E6867AD9FAC7}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Waverly", "SignalsX1\Wave\Waverly.vcxproj", "{DA000009-35C4-47DE-86EA-E6867AD9FAC7}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

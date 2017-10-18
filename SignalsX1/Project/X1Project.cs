@@ -22,11 +22,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.IO;
+
 using Signals;
 using Signals.IO;
 using Signals.UI;
 
-namespace Signals.Engine
+using Transonic.Wave;
+
+namespace Signals.Project
 {
     public class X1Project
     {
@@ -36,7 +39,7 @@ namespace Signals.Engine
 
         //obj graph
         public SignalsWindow signalsWindow;
-        public Signals signalsA;
+        public Waverly waverly;
         public MixerWindow mixerWindow;
         public MixerMaster mixerMaster;
         public TrackPanel trackPanel;
@@ -60,7 +63,7 @@ namespace Signals.Engine
         public X1Project(SignalsWindow _signalsWindow, String _name, int _sampleRate, int _duration)
         {
             signalsWindow = _signalsWindow;
-            signalsA = signalsWindow.signalsA;
+            waverly = signalsWindow.waverly;
             mixerWindow = signalsWindow.mixerWindow;
             mixerMaster = signalsWindow.mixerWindow.mixmaster;
             trackPanel = signalsWindow.trackPanel;
@@ -78,7 +81,7 @@ namespace Signals.Engine
             tracks = new List<X1Track>();
             isChanged = true;                   //work out a better determinization of when the project's changes later
 
-            signalsA.newProject(sampleRate, duration);    //create new project in back end
+            waverly.newProject(sampleRate, duration);    //create new project in back end
         }
 
 //- track I/O -----------------------------------------------------------------
@@ -127,7 +130,7 @@ namespace Signals.Engine
             {
                 deleteTrack(track);
             }
-            signalsA.closeProject();
+            waverly.closeProject();
         }
 
         public void save()
@@ -174,19 +177,19 @@ namespace Signals.Engine
 
         public List<String> getInputDeviceList()
         {
-            return signalsA.getInputDeviceList();
+            return waverly.getInputDeviceList();
         }
 
         public void setLeftOutLevel(float level)
         {
             leftOutLevel = level;
-            signalsA.setLeftOutputLevel(level);
+            waverly.setLeftOutputLevel(level);
         }
 
         public void setRightOutLevel(float level)
         {
             rightOutLevel = level;
-            signalsA.setRightOutputLevel(level);
+            waverly.setRightOutputLevel(level);
         }
 
 //- track management ----------------------------------------------------------
@@ -200,7 +203,7 @@ namespace Signals.Engine
             int nextTrackNum = (tracks.Count > 0) ? tracks[tracks.Count - 1].number + 1 : 0;
             X1Track track = new X1Track(this, nextTrackNum);
             addTrack(track);
-            signalsA.addTrack(nextTrackNum);
+            waverly.addTrack(nextTrackNum);
         }
 
         //add existing track to project and UI windows
@@ -216,13 +219,13 @@ namespace Signals.Engine
             tracks.Remove(track);
             trackPanel.deleteTrackView(track.trackView);
             mixerWindow.deleteMixerStrip(track.mixerStrip);
-            signalsA.deleteTrack(track.number);
+            waverly.deleteTrack(track.number);
         }
 
         public void importTracksFromFile(String filename)
         {
-            int trackCount = signalsA.loadWaveFile(filename);
-            dataSize = signalsA.getDataSize();
+            int trackCount = waverly.loadWaveFile(filename);
+            dataSize = waverly.getDataSize();
             int importDuration = (int)((dataSize + sampleRate - 1) / sampleRate);
 
             //need to re-adjust durations of existing tracks both in view & in back end

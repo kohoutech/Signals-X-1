@@ -25,7 +25,9 @@ using System.Windows.Forms;
 using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Runtime.InteropServices;
+
 using Signals.UI;
+using Transonic.Wave;
 
 namespace Signals.Widgets
 {
@@ -34,7 +36,7 @@ namespace Signals.Widgets
 
 //-----------------------------------------------------------------------------
 
-        public Signals signals;            //shortcut to signals to cut down pinvoke time
+        public Waverly waverly;            //shortcut to signals to cut down pinvoke time
         public TrackView trackView;
         public int trackNum;
         public int samplePos;        //sample that the view starts at on the left
@@ -43,7 +45,7 @@ namespace Signals.Widgets
         public TrackData(TrackView _trackView)
         {
             trackView = _trackView;
-            signals = trackView.trackPanel.signalsWindow.signalsA;
+            waverly = trackView.trackPanel.signalsWindow.waverly;
             trackNum = trackView.track.number;
             zoomFactor = TrackPanel.ZOOMFACTOR;
             samplePos = 0;
@@ -62,7 +64,7 @@ namespace Signals.Widgets
         {
             Graphics g = e.Graphics;
             IntPtr hdc = g.GetHdc();
-            signals.paintTrackData(trackNum, hdc, this.Width, samplePos);
+            waverly.paintTrackData(trackNum, hdc, this.Width, samplePos);
             g.ReleaseHdc(hdc);
         }
 

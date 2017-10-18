@@ -25,18 +25,21 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
-using Signals.Engine;
+
+using Signals.Project;
 using Signals.UI;
 using Signals.Widgets;
 using Signals.Dialogs;
 
+using Transonic.Wave;
+
 namespace Signals
 {
-    public partial class SignalsWindow : Form
+    public partial class SignalsWindow : Form, IWaveView
     {
         //model
         public X1Project currentProject;
-        public Signals signalsA;
+        public Waverly waverly;
 
         //view
         public ControlPanel controlPanel;
@@ -51,7 +54,7 @@ namespace Signals
         public SignalsWindow()
         {
             InitializeComponent();
-            signalsA = new Signals(this);
+            waverly = new Waverly(this);
             currentProject = null;
 
             //control panel
@@ -86,7 +89,7 @@ namespace Signals
             e.Cancel = true;
             if (closeCurrentProject())
             {
-                signalsA.shutDown();
+                waverly.shutDown();
                 shuttingdown = true;
                 mixerWindow.Close();
                 e.Cancel = false;
@@ -175,13 +178,13 @@ namespace Signals
         //transport actions
         public void playTransport()
         {
-            signalsA.playTransport();
+            waverly.playTransport();
             masterTimer.Start();
         }
 
         public void pauseTransport(bool _isPaused)
         {
-            signalsA.pauseTransport();
+            waverly.pauseTransport();
             if (_isPaused)
             {
                 masterTimer.Stop();
@@ -194,7 +197,7 @@ namespace Signals
 
         public void stopTransport()
         {
-            signalsA.stopTransport();
+            waverly.stopTransport();
             masterTimer.Stop();
             controlPanel.timerTick(0);
             trackPanel.timerTick(0);
@@ -211,7 +214,7 @@ namespace Signals
 
         public void recordTransport()
         {
-            signalsA.recordTransport();
+            waverly.recordTransport();
             masterTimer.Start();
         }        
 
@@ -278,7 +281,7 @@ namespace Signals
             filename = saveFileDialog.FileName;
             if (filename.Length == 0) return;
 
-            signalsA.exportToWaveFile(filename);
+            waverly.exportToWaveFile(filename);
             String msg = "project " + currentProject.projectName + " successfully exported to " + filename;
             MessageBox.Show(msg, "Complete!");
         }
@@ -381,7 +384,7 @@ namespace Signals
         private void settingsTransportMenuItem_Click(object sender, EventArgs e)
         {
             //call get import filename dialog box
-            TransportSettingsDialog transDialog = new TransportSettingsDialog(signalsA.getOutputDeviceList());
+            TransportSettingsDialog transDialog = new TransportSettingsDialog(waverly.getOutputDeviceList());
             transDialog.ShowDialog();
             if (transDialog.DialogResult == DialogResult.Cancel) return;
 
@@ -403,7 +406,7 @@ namespace Signals
 
         private void masterTimer_Tick(object sender, EventArgs e)
         {
-            int curPos = signalsA.getCurrentPos();
+            int curPos = waverly.getCurrentPos();
             int msTime = (int)((curPos * 1000.0f) / currentProject.sampleRate);  
 
             controlPanel.timerTick(msTime);
@@ -414,7 +417,7 @@ namespace Signals
         public void setCurrentTime(int msTime)
         {
             int curPos = (int)((msTime / 1000.0f) * currentProject.sampleRate);
-            signalsA.setCurrentPos(curPos);
+            waverly.setCurrentPos(curPos);
 
             controlPanel.timerTick(msTime);
             trackPanel.timerTick(msTime);

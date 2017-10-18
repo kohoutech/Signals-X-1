@@ -22,8 +22,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
-using Signals.Engine;
 using System.Drawing;
+
+using Signals.Project;
+
+using Transonic.Wave;
 
 namespace Signals.Widgets
 {
@@ -40,7 +43,7 @@ namespace Signals.Widgets
         private Button btnMixer;
 
         public SignalsWindow signalsWindow;
-        public Signals signals;
+        public Waverly waverly;
         public X1Project project;
 
         public bool isPlaying;
@@ -51,7 +54,7 @@ namespace Signals.Widgets
         {
             InitializeComponent();
             signalsWindow = _signalsWindow;
-            signals = signalsWindow.signalsA;
+            waverly = signalsWindow.waverly;
 
             isPlaying = false;
             isPaused = false;

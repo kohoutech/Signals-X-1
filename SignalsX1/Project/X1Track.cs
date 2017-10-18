@@ -24,7 +24,7 @@ using System.Text;
 using Signals.IO;
 using Signals.UI;
 
-namespace Signals.Engine
+namespace Signals.Project
 {
     public class X1Track
     {
@@ -71,20 +71,20 @@ namespace Signals.Engine
         public void setLevel(float _level)
         {
             level = _level;
-            project.signalsA.setTrackVolume(number, level);
+            project.waverly.setTrackVolume(number, level);
         }
 
         public void setPan(float _pan)
         {
             pan = _pan;
-            project.signalsA.setTrackPan(number, pan);
+            project.waverly.setTrackPan(number, pan);
         }
 
         public void setMuted(bool on)
         {
             mute = on;
             trackView.setMuteIndicator(on);
-            project.signalsA.setTrackMute(number, mute);
+            project.waverly.setTrackMute(number, mute);
         }
 
         public void setSolo(bool on)
@@ -96,13 +96,13 @@ namespace Signals.Engine
         {
             record = on;
             trackView.setRecordingIndicator(on);
-            project.signalsA.setTrackRecord(number, record);
+            project.waverly.setTrackRecord(number, record);
         }
 
         public void setInputDevice(int _inputdevNum)
         {
             inputdevNum = _inputdevNum;
-            project.signalsA.setTrackWaveIn(number, inputdevNum);
+            project.waverly.setTrackWaveIn(number, inputdevNum);
         }
 
         public List<String> getInputDeviceList()
@@ -128,7 +128,7 @@ namespace Signals.Engine
         {
             Console.WriteLine("saving track data");
             
-            project.signalsA.saveTrackData(number, outHdl);
+            project.waverly.saveTrackData(number, outHdl);
         }
 
         static public int loadTrack(X1Project _project, byte[] trackdata, int dataPos, IntPtr inHdl)
@@ -142,7 +142,7 @@ namespace Signals.Engine
 
             X1Track track = new X1Track(_project, _number);
             _project.addTrack(track);
-            _project.signalsA.loadTrackData(_number, inHdl);
+            _project.waverly.loadTrackData(_number, inHdl);
 
             track.setTrackName(_trackName);
             track.setLevel(_level);
