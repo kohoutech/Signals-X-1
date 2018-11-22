@@ -71,20 +71,20 @@ namespace Signals.Project
         public void setLevel(float _level)
         {
             level = _level;
-            project.waverly.setTrackVolume(number, level);
+            project.waverly.setChannelVolume(number, level);
         }
 
         public void setPan(float _pan)
         {
             pan = _pan;
-            project.waverly.setTrackPan(number, pan);
+            project.waverly.setChannelPan(number, pan);
         }
 
         public void setMuted(bool on)
         {
             mute = on;
             trackView.setMuteIndicator(on);
-            project.waverly.setTrackMute(number, mute);
+            project.waverly.setChannelMute(number, mute);
         }
 
         public void setSolo(bool on)
@@ -96,13 +96,13 @@ namespace Signals.Project
         {
             record = on;
             trackView.setRecordingIndicator(on);
-            project.waverly.setTrackRecord(number, record);
+            project.waverly.setChannelRecord(number, record);
         }
 
         public void setInputDevice(int _inputdevNum)
         {
             inputdevNum = _inputdevNum;
-            project.waverly.setTrackWaveIn(number, inputdevNum);
+            project.waverly.setChannelWaveIn(number, inputdevNum);
         }
 
         public List<String> getInputDeviceList()
@@ -128,7 +128,7 @@ namespace Signals.Project
         {
             Console.WriteLine("saving track data");
             
-            project.waverly.saveTrackData(number, outHdl);
+            project.waverly.saveChannelData(number, outHdl);
         }
 
         static public int loadTrack(X1Project _project, byte[] trackdata, int dataPos, IntPtr inHdl)
@@ -142,7 +142,7 @@ namespace Signals.Project
 
             X1Track track = new X1Track(_project, _number);
             _project.addTrack(track);
-            _project.waverly.loadTrackData(_number, inHdl);
+            _project.waverly.loadChannelData(_number, inHdl);
 
             track.setTrackName(_trackName);
             track.setLevel(_level);

@@ -406,7 +406,7 @@ namespace Signals
 
         private void masterTimer_Tick(object sender, EventArgs e)
         {
-            int curPos = waverly.getCurrentPos();
+            int curPos = waverly.getCurrentTransportPos();
             int msTime = (int)((curPos * 1000.0f) / currentProject.sampleRate);  
 
             controlPanel.timerTick(msTime);
@@ -417,7 +417,7 @@ namespace Signals
         public void setCurrentTime(int msTime)
         {
             int curPos = (int)((msTime / 1000.0f) * currentProject.sampleRate);
-            waverly.setCurrentPos(curPos);
+            waverly.setCurrentTransportPos(curPos);
 
             controlPanel.timerTick(msTime);
             trackPanel.timerTick(msTime);

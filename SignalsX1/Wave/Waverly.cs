@@ -24,49 +24,18 @@ using System.Text;
 using System.Runtime.InteropServices;
 
 using Transonic.Wave.System;
+using Transonic.Wave.Engine;
 
 namespace Transonic.Wave
 {
     public class Waverly
     {
-        //communication with wave.dll
+        //communication with waverly.dll
         [DllImport("Waverly.DLL", CallingConvention = CallingConvention.Cdecl)]
         public static extern void WaverlyInit();
 
         [DllImport("Waverly.DLL", CallingConvention = CallingConvention.Cdecl)]
         public static extern void WaverlyShutDown();
-
-//transport calls -----------------------------------------------------
-
-        [DllImport("Waverly.DLL", CallingConvention = CallingConvention.Cdecl)]
-        public static extern void TransportPlay();
-
-        [DllImport("Waverly.DLL", CallingConvention = CallingConvention.Cdecl)]
-        public static extern void TransportStop();
-
-        [DllImport("Waverly.DLL", CallingConvention = CallingConvention.Cdecl)]
-        public static extern void TransportPause();
-
-        [DllImport("Waverly.DLL", CallingConvention = CallingConvention.Cdecl)]
-        public static extern void TransportRewind();
-
-        [DllImport("Waverly.DLL", CallingConvention = CallingConvention.Cdecl)]
-        public static extern void TransportFastForward(int speed);
-
-        [DllImport("Waverly.DLL", CallingConvention = CallingConvention.Cdecl)]
-        public static extern void TransportRecord();
-
-        [DllImport("Waverly.DLL", CallingConvention = CallingConvention.Cdecl)]
-        public static extern void TransportSetVolume(float volume);
-
-        [DllImport("Waverly.DLL", CallingConvention = CallingConvention.Cdecl)]
-        public static extern void TransportSetBalance(float balance);
-
-        [DllImport("Waverly.DLL", CallingConvention = CallingConvention.Cdecl)]
-        public static extern int TransportGetCurrentPos();
-
-        [DllImport("Waverly.DLL", CallingConvention = CallingConvention.Cdecl)]
-        public static extern int TransportSetCurrentPos(int pos);
 
 //audio data calls -------------------------------------------------------
 
@@ -83,9 +52,6 @@ namespace Transonic.Wave
         public static extern void AudioSave(string filename);
 
         [DllImport("Waverly.DLL", CallingConvention = CallingConvention.Cdecl)]
-        public static extern int AudioImportWavFile(string filename);
-
-        [DllImport("Waverly.DLL", CallingConvention = CallingConvention.Cdecl)]
         public static extern int AudioGetSampleRate();
 
         [DllImport("Waverly.DLL", CallingConvention = CallingConvention.Cdecl)]
@@ -95,49 +61,42 @@ namespace Transonic.Wave
         public static extern int AudioGetDuration();
 
         [DllImport("Waverly.DLL", CallingConvention = CallingConvention.Cdecl)]
-        public static extern float AudioGetLeftLevel();
+        public static extern int AudioImportWavFile(string filename);
 
         [DllImport("Waverly.DLL", CallingConvention = CallingConvention.Cdecl)]
-        public static extern float AudioGetRightLevel();
+        public static extern bool AudioExportWavFile(string filename);
+
+//channel calls --------------------------------------------------------------
 
         [DllImport("Waverly.DLL", CallingConvention = CallingConvention.Cdecl)]
-        public static extern void ChannelSetWaveIn(int trackNum, int deviceIdx);
+        public static extern void ProjectAddChannel(int channelNum);
 
         [DllImport("Waverly.DLL", CallingConvention = CallingConvention.Cdecl)]
-        public static extern void ChannelSetWaveOut(int deviceIdx);
-
-//recorder calls --------------------------------------------------------------
+        public static extern void ProjectDeleteChannel(int channelNum);
 
         [DllImport("Waverly.DLL", CallingConvention = CallingConvention.Cdecl)]
-        public static extern void ProjectAddTrack(int trackNum);
+        public static extern void ChannelSetWaveIn(int channelNum, int deviceIdx);
 
         [DllImport("Waverly.DLL", CallingConvention = CallingConvention.Cdecl)]
-        public static extern void ProjectDeleteTrack(int trackNum);
+        public static extern void SetChannelVolume(int channelNum, float volume);
 
         [DllImport("Waverly.DLL", CallingConvention = CallingConvention.Cdecl)]
-        public static extern void ProjectLoadTrackData(int trackNum, IntPtr inhdl);
+        public static extern void SetChannelPan(int channelNum, float pan);
 
         [DllImport("Waverly.DLL", CallingConvention = CallingConvention.Cdecl)]
-        public static extern void TrackSetVolume(int trackNum, float volume);
+        public static extern void SetChannelMute(int channelNum, bool mute);
 
         [DllImport("Waverly.DLL", CallingConvention = CallingConvention.Cdecl)]
-        public static extern void TrackSetPan(int trackNum, float pan);
+        public static extern void SetChannelRecord(int channelNum, bool record);
 
         [DllImport("Waverly.DLL", CallingConvention = CallingConvention.Cdecl)]
-        public static extern void TrackSetMute(int trackNum, bool mute);
+        public static extern void LoadChannelData(int channelNum, IntPtr inhdl);
 
         [DllImport("Waverly.DLL", CallingConvention = CallingConvention.Cdecl)]
-        public static extern void TrackSetRecord(int trackNum, bool record);
+        public static extern void SaveChannelData(int channelNum, IntPtr outhdl);
 
         [DllImport("Waverly.DLL", CallingConvention = CallingConvention.Cdecl)]
-        public static extern void TrackPaintData(int trackNum, IntPtr hdc, int width, int startpos);
-
-        [DllImport("Waverly.DLL", CallingConvention = CallingConvention.Cdecl)]
-        public static extern void TrackSaveData(int trackNum, IntPtr outhdl);
-
-        [DllImport("Waverly.DLL", CallingConvention = CallingConvention.Cdecl)]
-        public static extern bool ProjectExportWavFile(string filename);
-
+        public static extern void PaintChannelData(int channelNum, IntPtr hdc, int width, int startpos);
 
 //- signals methods -----------------------------------------------------------
 
@@ -156,108 +115,41 @@ namespace Transonic.Wave
             WaverlyShutDown();
         }
 
-//- transport methods ---------------------------------------------------------
-
-        public void playTransport()
+        public Transport getTransport()
         {
-            TransportPlay();
+            return new Transport();
         }
 
-        public void pauseTransport()
-        {
-            TransportPause();
-        }
-
-        public void stopTransport()
-        {
-            TransportStop();
-        }
-
-        public void rewindTransport()
-        {
-            TransportRewind();
-        }
-
-        public void fastForwardTransport(int speed)
-        {
-            //TransportFastForward(speed);      //doesn't work!
-        }
-
-        public void recordTransport()
-        {
-            TransportRecord();
-        }
-
-        public void setLeftOutputLevel(float level)
-        {
-            //TranportSetLeftOutputLevel(level);
-        }
-
-        public void setRightOutputLevel(float level)
-        {
-            //TranportSetRightOutputLevel(level);
-        }
-
-        public void setVolume(float volume)
-        {
-            TransportSetVolume(volume);
-        }
-
-        public void setBalance(float balance)
-        {
-            TransportSetBalance(balance);
-        }
-
-        public int getCurrentPos()
-        {
-            return TransportGetCurrentPos();    //in samples
-        }
-
-        public void setCurrentPos(int pos)
-        {
-            TransportSetCurrentPos(pos);		//in samples
-        }
-
-        public void setWaveOutDevice(int devIdx)
-        {
-            ChannelSetWaveOut(devIdx);
-        }
-        
 //- audio data methods --------------------------------------------------------
 
-        public void newProject(int sampleRate, int duration)
+        public void newAudioProject(int sampleRate, int duration)
         {
             AudioNew(sampleRate, duration);
         }
 
-        public void openAudioFile(String filename)
+        public void openAudioProject(String filename)
         {
             AudioOpen(filename);
         }
 
-        public void closeAudioFile()
+        public void closeAudioProject()
         {
             AudioClose();
         }
 
-        public void closeProject()
-        {
-            //AudioClose();
-        }
-
-        public int loadWaveFile(string filename)
+        public int importWaveFile(string filename)
         {
             return AudioImportWavFile(filename);
-        }
-
-        public int getDataSize()
-        {
-            return AudioGetDataSize();
         }
 
         public int getAudioSampleRate()
         {
             return AudioGetSampleRate();
+        }
+
+        public int getAudioDataSize()
+        {
+            return AudioGetDataSize();
         }
 
         public int getAudioDuration()
@@ -275,71 +167,62 @@ namespace Transonic.Wave
             return waveDevices.getOutDevNameList();
         }
 
-        public float getAudioLeftLevel()
+
+//- channel methods -----------------------------------------------------------
+
+        public void addChannel(int channelNum)
         {
-            return AudioGetLeftLevel();
+            ProjectAddChannel(channelNum);
         }
 
-        public float getAudioRightLevel()
+        public void deleteChannel(int channelNum)
         {
-            return AudioGetRightLevel();
+            ProjectDeleteChannel(channelNum);
         }
 
-//- track methods -----------------------------------------------------------
-
-        public void addTrack(int trackNum)
+        public void loadChannelData(int channelNum, IntPtr inhdl)
         {
-            ProjectAddTrack(trackNum);
+            LoadChannelData(channelNum, inhdl);
         }
 
-        public void deleteTrack(int trackNum)
+        public void setChannelWaveIn(int channelNum, int deviceIdx)
         {
-            ProjectDeleteTrack(trackNum);
+            ChannelSetWaveIn(channelNum, deviceIdx);
         }
 
-        public void loadTrackData(int trackNum, IntPtr inhdl)
+        public void setChannelVolume(int channelNum, float volume)
         {
-            ProjectLoadTrackData(trackNum, inhdl);
+            SetChannelVolume(channelNum, volume);
         }
 
-        public void setTrackWaveIn(int trackNum, int deviceIdx)
+        public void setChannelPan(int channelNum, float volume)
         {
-            ChannelSetWaveIn(trackNum, deviceIdx);
+            SetChannelPan(channelNum, volume);
         }
 
-        public void setTrackVolume(int trackNum, float volume)
+        public void setChannelMute(int channelNum, bool mute)
         {
-            TrackSetVolume(trackNum, volume);
+            SetChannelMute(channelNum, mute);
         }
 
-        public void setTrackPan(int trackNum, float volume)
+        public void setChannelRecord(int channelNum, bool record)
         {
-            TrackSetPan(trackNum, volume);
+            SetChannelRecord(channelNum, record);
         }
 
-        public void setTrackMute(int trackNum, bool mute)
+        public void paintChannelData(int channelNum, IntPtr hdc, int width, int startpos)
         {
-            TrackSetMute(trackNum, mute);
+            PaintChannelData(channelNum, hdc, width, startpos);
         }
 
-        public void setTrackRecord(int trackNum, bool record)
+        public void saveChannelData(int channelNum, IntPtr outhdl)
         {
-            TrackSetRecord(trackNum, record);
-        }
-
-        public void paintTrackData(int trackNum, IntPtr hdc, int width, int startpos)
-        {
-            TrackPaintData(trackNum, hdc, width, startpos);
-        }
-
-        public void saveTrackData(int trackNum, IntPtr outhdl)
-        {
-            TrackSaveData(trackNum, outhdl);
+            SaveChannelData(channelNum, outhdl);
         }
 
         public bool exportToWaveFile(string filename)
         {
-            return ProjectExportWavFile(filename);
+            return AudioExportWavFile(filename);
         }
     }
 }

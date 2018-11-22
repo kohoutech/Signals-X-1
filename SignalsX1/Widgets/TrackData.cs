@@ -64,7 +64,7 @@ namespace Signals.Widgets
         {
             Graphics g = e.Graphics;
             IntPtr hdc = g.GetHdc();
-            waverly.paintTrackData(trackNum, hdc, this.Width, samplePos);
+            waverly.paintChannelData(trackNum, hdc, this.Width, samplePos);
             g.ReleaseHdc(hdc);
         }
 

@@ -81,7 +81,7 @@ namespace Signals.Project
             tracks = new List<X1Track>();
             isChanged = true;                   //work out a better determinization of when the project's changes later
 
-            waverly.newProject(sampleRate, duration);    //create new project in back end
+            waverly.newAudioProject(sampleRate, duration);    //create new project in back end
         }
 
 //- track I/O -----------------------------------------------------------------
@@ -130,7 +130,7 @@ namespace Signals.Project
             {
                 deleteTrack(track);
             }
-            waverly.closeProject();
+            waverly.closeAudioProject();
         }
 
         public void save()
@@ -183,13 +183,13 @@ namespace Signals.Project
         public void setLeftOutLevel(float level)
         {
             leftOutLevel = level;
-            waverly.setLeftOutputLevel(level);
+            waverly.setTransportLeftLevel(level);
         }
 
         public void setRightOutLevel(float level)
         {
             rightOutLevel = level;
-            waverly.setRightOutputLevel(level);
+            waverly.setTransportRightLevel(level);
         }
 
 //- track management ----------------------------------------------------------
@@ -203,7 +203,7 @@ namespace Signals.Project
             int nextTrackNum = (tracks.Count > 0) ? tracks[tracks.Count - 1].number + 1 : 0;
             X1Track track = new X1Track(this, nextTrackNum);
             addTrack(track);
-            waverly.addTrack(nextTrackNum);
+            waverly.addChannel(nextTrackNum);
         }
 
         //add existing track to project and UI windows
@@ -219,13 +219,13 @@ namespace Signals.Project
             tracks.Remove(track);
             trackPanel.deleteTrackView(track.trackView);
             mixerWindow.deleteMixerStrip(track.mixerStrip);
-            waverly.deleteTrack(track.number);
+            waverly.deleteChannel(track.number);
         }
 
         public void importTracksFromFile(String filename)
         {
-            int trackCount = waverly.loadWaveFile(filename);
-            dataSize = waverly.getDataSize();
+            int trackCount = waverly.importWaveFile(filename);
+            dataSize = waverly.getAudioDataSize();
             int importDuration = (int)((dataSize + sampleRate - 1) / sampleRate);
 
             //need to re-adjust durations of existing tracks both in view & in back end
