@@ -29,7 +29,7 @@ using System.Runtime.InteropServices;
 using Signals.UI;
 using Transonic.Wave;
 
-namespace Signals.Widgets
+namespace Signals.UI
 {
     public class TrackData : UserControl
     {

@@ -1,6 +1,6 @@
 ﻿/* ----------------------------------------------------------------------------
 Signals X-1 : a digital audio multitrack recorder
-Copyright (C) 2005-2017  George E Greaney
+Copyright (C) 2005-2019  George E Greaney
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License
@@ -28,9 +28,9 @@ using System.Windows.Forms;
 
 using Signals.Project;
 using Signals.UI;
-using Signals.Widgets;
 using Signals.Dialogs;
 
+using Transonic.Widget;
 using Transonic.Wave;
 
 namespace Signals
@@ -54,7 +54,7 @@ namespace Signals
         public SignalsWindow()
         {
             InitializeComponent();
-            waverly = new Waverly(this);
+            //waverly = new Waverly(this);
             currentProject = null;
 
             //control panel
@@ -89,7 +89,7 @@ namespace Signals
             e.Cancel = true;
             if (closeCurrentProject())
             {
-                waverly.shutDown();
+                //waverly.shutDown();
                 shuttingdown = true;
                 mixerWindow.Close();
                 e.Cancel = false;
@@ -178,13 +178,13 @@ namespace Signals
         //transport actions
         public void playTransport()
         {
-            waverly.playTransport();
+            //waverly.playTransport();
             masterTimer.Start();
         }
 
         public void pauseTransport(bool _isPaused)
         {
-            waverly.pauseTransport();
+            //waverly.pauseTransport();
             if (_isPaused)
             {
                 masterTimer.Stop();
@@ -197,7 +197,7 @@ namespace Signals
 
         public void stopTransport()
         {
-            waverly.stopTransport();
+            //waverly.stopTransport();
             masterTimer.Stop();
             controlPanel.timerTick(0);
             trackPanel.timerTick(0);
@@ -214,7 +214,7 @@ namespace Signals
 
         public void recordTransport()
         {
-            waverly.recordTransport();
+            //waverly.recordTransport();
             masterTimer.Start();
         }        
 
@@ -281,7 +281,7 @@ namespace Signals
             filename = saveFileDialog.FileName;
             if (filename.Length == 0) return;
 
-            waverly.exportToWaveFile(filename);
+            //waverly.exportToWaveFile(filename);
             String msg = "project " + currentProject.projectName + " successfully exported to " + filename;
             MessageBox.Show(msg, "Complete!");
         }
@@ -384,21 +384,21 @@ namespace Signals
         private void settingsTransportMenuItem_Click(object sender, EventArgs e)
         {
             //call get import filename dialog box
-            TransportSettingsDialog transDialog = new TransportSettingsDialog(waverly.getOutputDeviceList());
-            transDialog.ShowDialog();
-            if (transDialog.DialogResult == DialogResult.Cancel) return;
+            //TransportSettingsDialog transDialog = new TransportSettingsDialog(waverly.getOutputDeviceList());
+            //transDialog.ShowDialog();
+            //if (transDialog.DialogResult == DialogResult.Cancel) return;
 
-            //not wired up yet
-            int outDeviceNum = transDialog.outputDeviceNum;
-            int inputLatency = transDialog.inputLatency;
-            int outputLatency = transDialog.outputLatency;
+            ////not wired up yet
+            //int outDeviceNum = transDialog.outputDeviceNum;
+            //int inputLatency = transDialog.inputLatency;
+            //int outputLatency = transDialog.outputLatency;
         }
 
 //- help events ---------------------------------------------------------------
 
         private void aboutHelpMenuItem_Click(object sender, EventArgs e)
         {
-            String msg = "Signals X-1\nversion 1.0.0\n" + "\xA9 Transonic Software 2005-2017\n" + "http://transonic.kohoutech.com";
+            String msg = "Signals X-1\nversion 1.0.0\n" + "\xA9 Transonic Software 2005-2019\n" + "http://transonic.kohoutech.com";
             MessageBox.Show(msg, "About");
         }
 
@@ -406,7 +406,7 @@ namespace Signals
 
         private void masterTimer_Tick(object sender, EventArgs e)
         {
-            int curPos = waverly.getCurrentTransportPos();
+            int curPos = 0;//waverly.getCurrentTransportPos();
             int msTime = (int)((curPos * 1000.0f) / currentProject.sampleRate);  
 
             controlPanel.timerTick(msTime);
@@ -417,7 +417,7 @@ namespace Signals
         public void setCurrentTime(int msTime)
         {
             int curPos = (int)((msTime / 1000.0f) * currentProject.sampleRate);
-            waverly.setCurrentTransportPos(curPos);
+            //waverly.setCurrentTransportPos(curPos);
 
             controlPanel.timerTick(msTime);
             trackPanel.timerTick(msTime);

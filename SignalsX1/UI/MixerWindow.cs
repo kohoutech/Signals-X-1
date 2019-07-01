@@ -1,6 +1,6 @@
 ﻿/* ----------------------------------------------------------------------------
 Signals X-1 : a digital audio multitrack recorder
-Copyright (C) 2005-2017  George E Greaney
+Copyright (C) 2005-2019  George E Greaney
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License
@@ -32,8 +32,10 @@ namespace Signals.UI
         //obj graph
         public SignalsWindow signalsWindow;
         public X1Project project;
+
         public MixerMaster mixmaster;
         public List<MixerStrip> mixerStrips;
+        private Panel stripPanel;
 
         //controls
         HScrollBar stripScroll;
@@ -48,27 +50,44 @@ namespace Signals.UI
             project = null;
             InitializeComponent();
 
-            mixerStrips = new List<MixerStrip>();
-            stripCount = 0;
+            //mix master goes on right of mixer window
+            mixmaster = new MixerMaster(this);
+            mixmaster.Dock = DockStyle.Right;
+            this.Controls.Add(mixmaster);
 
+            //strip scroll bar runs along bottom of window under channel strips
             stripScroll = new HScrollBar();
             stripScroll.Location = new Point(0, MixerStrip.STRIPHEIGHT);
             stripScroll.Size = new Size(MixerStrip.STRIPWIDTH, 20);
             stripScroll.LargeChange = MixerStrip.STRIPWIDTH / 2;
-            stripScroll.Scroll  += new System.Windows.Forms.ScrollEventHandler(this.stripScroll_Scroll);
+            stripScroll.Scroll += new ScrollEventHandler(stripScroll_Scroll);
             this.Controls.Add(stripScroll);
 
-            mixmaster = new MixerMaster(this);
-            mixmaster.Dock = DockStyle.Right;
-            this.Controls.Add(mixmaster);
-            mixmaster.BringToFront();
+            //strip panel contains the channel strips
+            stripPanel = new Panel();
+            stripPanel.Location = new Point(0, 0);
+            stripPanel.Size = new Size(0, 0);
+            stripPanel.TabStop = false;
+            this.Controls.Add(stripPanel);
 
-            //fix height & width for initial no-strip view
-            this.ClientSize = new Size(mixmaster.Width, MixerStrip.STRIPHEIGHT + stripScroll.Height); 
+            mixerStrips = new List<MixerStrip>();
+            stripCount = 0;
+
+            //fix height & width for initial one strip view
+            this.ClientSize = new Size(mixmaster.Width + MixerStrip.STRIPWIDTH, MixerStrip.STRIPHEIGHT + stripScroll.Height); 
             this.MinimumSize = new Size(this.Width, this.Height);
-            this.MaximumSize = new Size(this.Width, this.Height);
-            stripWidth = 0;
-            mixermaxWidth = this.Width;
+            //this.MaximumSize = new Size(this.Width, this.Height);
+            //stripWidth = 0;
+            //mixermaxWidth = this.Width;
+
+            addMixerStrip(null);
+            addMixerStrip(null);
+            addMixerStrip(null);
+            addMixerStrip(null);
+            addMixerStrip(null);
+            addMixerStrip(null);
+            addMixerStrip(null);
+            addMixerStrip(null);
         }
 
         private void InitializeComponent()
@@ -85,7 +104,7 @@ namespace Signals.UI
             this.Name = "MixerWindow";
             this.ShowInTaskbar = false;
             this.Text = "Signals X-1 Mixer";
-            this.Resize += new System.EventHandler(this.MixerWindow_Resize);
+            this.Resize += new System.EventHandler(MixerWindow_Resize);
             this.ResumeLayout(false);
 
         }
@@ -146,42 +165,42 @@ namespace Signals.UI
 
         public void addMixerStrip(X1Track track)
         {
-            this.MaximumSize = new Size(Int32.MaxValue, this.Height);           //allow temp resizing
+            //this.MaximumSize = new Size(Int32.MaxValue, this.Height);           //allow temp resizing
 
             MixerStrip strip = new MixerStrip(this, track);
-            this.Controls.Add(strip);
             mixerStrips.Add(strip);
+            stripPanel.Controls.Add(strip);
             stripCount++;
 
-            int diff = (mixmaster.Width + stripWidth) - this.ClientSize.Width;      //amount mixmaster is covering mixer strips
-            if (diff == 0)      //if mixer window is full width
-            {
-                strip.Location = new Point(stripWidth, 0);
-                stripWidth = mixerStrips.Count * MixerStrip.STRIPWIDTH;
-                stripScroll.Width = stripWidth;
-                mixmaster.Location = new Point(stripWidth, 0);
-                this.ClientSize = new Size(stripWidth + mixmaster.Width, MixerStrip.STRIPHEIGHT + stripScroll.Height);
-            }
-            else
-            {
-                stripWidth = mixerStrips.Count * MixerStrip.STRIPWIDTH;     //respect cur mixer window width
-                int leftPos = mixmaster.Left - stripWidth;
-                for (int i = 0; i < stripCount; i++)
-                {
-                    mixerStrips[i].Left = leftPos;
-                    leftPos += MixerStrip.STRIPWIDTH;
-                }
-                diff += MixerStrip.STRIPWIDTH;              //the amount the mixmaster can cover is now one strip wider
-                stripScroll.Maximum = diff + stripScroll.LargeChange - 1;
-                stripScroll.Value = diff;
-            }
+            //int diff = (mixmaster.Width + stripWidth) - this.ClientSize.Width;      //amount mixmaster is covering mixer strips
+            //if (diff == 0)      //if mixer window is full width
+            //{
+            //    strip.Location = new Point(stripWidth, 0);
+            //    stripWidth = mixerStrips.Count * MixerStrip.STRIPWIDTH;
+            //    stripScroll.Width = stripWidth;
+            //    mixmaster.Location = new Point(stripWidth, 0);
+            //    this.ClientSize = new Size(stripWidth + mixmaster.Width, MixerStrip.STRIPHEIGHT + stripScroll.Height);
+            //}
+            //else
+            //{
+            //    stripWidth = mixerStrips.Count * MixerStrip.STRIPWIDTH;     //respect cur mixer window width
+            //    int leftPos = mixmaster.Left - stripWidth;
+            //    for (int i = 0; i < stripCount; i++)
+            //    {
+            //        mixerStrips[i].Left = leftPos;
+            //        leftPos += MixerStrip.STRIPWIDTH;
+            //    }
+            //    diff += MixerStrip.STRIPWIDTH;              //the amount the mixmaster can cover is now one strip wider
+            //    stripScroll.Maximum = diff + stripScroll.LargeChange - 1;
+            //    stripScroll.Value = diff;
+            //}
 
-            //set minimum width to width of one track strip so one will always be visible
-            if (stripCount == 1) {
-                this.MinimumSize = new Size(this.Width, this.Height);
-            }
-            mixermaxWidth += MixerStrip.STRIPWIDTH;
-            this.MaximumSize = new Size(mixermaxWidth, this.Height);       //but don't allow mixer to be stretched past strips + master width
+            ////set minimum width to width of one track strip so one will always be visible
+            //if (stripCount == 1) {
+            //    this.MinimumSize = new Size(this.Width, this.Height);
+            //}
+            //mixermaxWidth += MixerStrip.STRIPWIDTH;
+            //this.MaximumSize = new Size(mixermaxWidth, this.Height);       //but don't allow mixer to be stretched past strips + master width
             Invalidate();
         }
 
@@ -227,7 +246,7 @@ namespace Signals.UI
                 this.MinimumSize = new Size(this.Width, this.Height);
             }
             mixermaxWidth -= MixerStrip.STRIPWIDTH;
-            this.MaximumSize = new Size(mixermaxWidth, this.Height);       //but don't allow mixer to be stretched past strips + master width
+            //this.MaximumSize = new Size(mixermaxWidth, this.Height);       //but don't allow mixer to be stretched past strips + master width
             Invalidate();
         }
 
@@ -265,8 +284,8 @@ namespace Signals.UI
                 {
                     mixerStrips[i].setRecording(false);
                     mixerStrips[i].setSoloing(false);
-                    mixerStrips[i].btnMute.Enabled = true;
-                    mixerStrips[i].btnSolo.Enabled = false;
+                    //mixerStrips[i].btnMute.Enabled = true;
+                    //mixerStrips[i].btnSolo.Enabled = false;
                 }
             }
         }
@@ -278,7 +297,7 @@ namespace Signals.UI
             {
                 if (mixerStrips[i] != strip)
                 {
-                    mixerStrips[i].btnSolo.Enabled = true;
+                    //mixerStrips[i].btnSolo.Enabled = true;
                 }
             }
         }
