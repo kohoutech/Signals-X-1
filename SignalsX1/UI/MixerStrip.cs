@@ -287,6 +287,7 @@ namespace Signals.UI
             this.Controls.Add(this.knbGain);
             this.Controls.Add(this.lblTrackNum);
             this.DoubleBuffered = true;
+            this.Margin = new System.Windows.Forms.Padding(0);
             this.Name = "MixerStrip";
             this.Size = new System.Drawing.Size(90, 900);
             this.ResumeLayout(false);

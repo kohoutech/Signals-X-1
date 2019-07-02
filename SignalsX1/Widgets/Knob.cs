@@ -27,7 +27,7 @@ using System.Drawing.Drawing2D;
 
 namespace Transonic.Widget
 {
-    public class Knob : Control
+    public class Knob : UserControl
     {
 
         protected override void OnPaint(PaintEventArgs e)
@@ -36,7 +36,7 @@ namespace Transonic.Widget
             Graphics g = e.Graphics;
             g.SmoothingMode = SmoothingMode.AntiAlias;
 
-            g.DrawEllipse(Pens.Blue, 0, 0, 30, 30);
+            g.FillEllipse(Brushes.Blue, 0, 0, this.Width-1, this.Height-1);
         }
     }
 }

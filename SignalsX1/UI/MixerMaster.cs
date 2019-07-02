@@ -49,7 +49,6 @@ namespace Signals.UI
         //params
         float leftLevel;
         float rightLevel;
-        private ChannelList channelList;
         bool fadersAreLocked;
 
         public MixerMaster(MixerWindow _mixer)
@@ -79,12 +78,11 @@ namespace Signals.UI
             this.lblLevel = new System.Windows.Forms.Label();
             this.chkLock = new System.Windows.Forms.CheckBox();
             this.lblMeter = new System.Windows.Forms.Label();
-            this.channelList = new Transonic.Widget.ChannelList();
             this.SuspendLayout();
             // 
             // vsbLeftFader
             // 
-            this.vsbLeftFader.Location = new System.Drawing.Point(45, 671);
+            this.vsbLeftFader.Location = new System.Drawing.Point(37, 223);
             this.vsbLeftFader.Maximum = 109;
             this.vsbLeftFader.Name = "vsbLeftFader";
             this.vsbLeftFader.Size = new System.Drawing.Size(23, 200);
@@ -94,7 +92,7 @@ namespace Signals.UI
             // 
             // vsbRightFader
             // 
-            this.vsbRightFader.Location = new System.Drawing.Point(82, 671);
+            this.vsbRightFader.Location = new System.Drawing.Point(74, 223);
             this.vsbRightFader.Maximum = 109;
             this.vsbRightFader.Name = "vsbRightFader";
             this.vsbRightFader.Size = new System.Drawing.Size(23, 202);
@@ -117,7 +115,7 @@ namespace Signals.UI
             // 
             this.lblLevel.AutoSize = true;
             this.lblLevel.ForeColor = System.Drawing.Color.White;
-            this.lblLevel.Location = new System.Drawing.Point(53, 649);
+            this.lblLevel.Location = new System.Drawing.Point(45, 201);
             this.lblLevel.Name = "lblLevel";
             this.lblLevel.Size = new System.Drawing.Size(33, 13);
             this.lblLevel.TabIndex = 4;
@@ -128,7 +126,7 @@ namespace Signals.UI
             this.chkLock.AutoSize = true;
             this.chkLock.Checked = true;
             this.chkLock.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.chkLock.Location = new System.Drawing.Point(85, 880);
+            this.chkLock.Location = new System.Drawing.Point(77, 432);
             this.chkLock.Name = "chkLock";
             this.chkLock.Size = new System.Drawing.Size(50, 17);
             this.chkLock.TabIndex = 2;
@@ -140,25 +138,16 @@ namespace Signals.UI
             // 
             this.lblMeter.AutoSize = true;
             this.lblMeter.ForeColor = System.Drawing.Color.White;
-            this.lblMeter.Location = new System.Drawing.Point(53, 467);
+            this.lblMeter.Location = new System.Drawing.Point(45, 10);
             this.lblMeter.Name = "lblMeter";
             this.lblMeter.Size = new System.Drawing.Size(34, 13);
             this.lblMeter.TabIndex = 3;
             this.lblMeter.Text = "Meter";
             // 
-            // channelList
-            // 
-            this.channelList.BackColor = System.Drawing.Color.LightGray;
-            this.channelList.Location = new System.Drawing.Point(11, 7);
-            this.channelList.Name = "channelList";
-            this.channelList.Size = new System.Drawing.Size(112, 451);
-            this.channelList.TabIndex = 6;
-            // 
             // MixerMaster
             // 
             this.BackColor = System.Drawing.Color.SteelBlue;
             this.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.Controls.Add(this.channelList);
             this.Controls.Add(this.lblMeter);
             this.Controls.Add(this.chkLock);
             this.Controls.Add(this.lblLevel);

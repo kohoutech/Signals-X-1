@@ -57,10 +57,11 @@ namespace Signals.UI
 
             //strip scroll bar runs along bottom of window under channel strips
             stripScroll = new HScrollBar();
+            stripScroll.Minimum = 0;
             stripScroll.Location = new Point(0, MixerStrip.STRIPHEIGHT);
             stripScroll.Size = new Size(MixerStrip.STRIPWIDTH, 20);
             stripScroll.LargeChange = MixerStrip.STRIPWIDTH / 2;
-            stripScroll.Scroll += new ScrollEventHandler(stripScroll_Scroll);
+            stripScroll.ValueChanged += new EventHandler(stripScroll_ValueChanged);
             this.Controls.Add(stripScroll);
 
             //strip panel contains the channel strips
@@ -74,14 +75,9 @@ namespace Signals.UI
             stripCount = 0;
 
             //fix height & width for initial one strip view
-            this.ClientSize = new Size(mixmaster.Width + MixerStrip.STRIPWIDTH, MixerStrip.STRIPHEIGHT + stripScroll.Height); 
+            this.ClientSize = new Size(mixmaster.Width + MixerStrip.STRIPWIDTH, MixerStrip.STRIPHEIGHT + stripScroll.Height);
             this.MinimumSize = new Size(this.Width, this.Height);
-            //this.MaximumSize = new Size(this.Width, this.Height);
-            //stripWidth = 0;
-            //mixermaxWidth = this.Width;
 
-            addMixerStrip(null);
-            addMixerStrip(null);
             addMixerStrip(null);
             addMixerStrip(null);
             addMixerStrip(null);
@@ -97,6 +93,7 @@ namespace Signals.UI
             // 
             // MixerWindow
             // 
+            this.BackColor = System.Drawing.Color.Chartreuse;
             this.ClientSize = new System.Drawing.Size(284, 431);
             this.DoubleBuffered = true;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
@@ -104,103 +101,57 @@ namespace Signals.UI
             this.Name = "MixerWindow";
             this.ShowInTaskbar = false;
             this.Text = "Signals X-1 Mixer";
-            this.Resize += new System.EventHandler(MixerWindow_Resize);
+            this.Resize += new System.EventHandler(this.MixerWindow_Resize);
             this.ResumeLayout(false);
 
         }
 
 //-----------------------------------------------------------------------------
 
-        public void setProject(X1Project _project)
+        //compensate for the fact that if the scrollbar max = 200, the greatest value will be 200 - THUMBWIDTH (value determined experimentally)
+        const int THUMBWIDTH = 44;
+
+        private void updateScrollBar()
         {
-            project = _project;
-            mixmaster.project = project;
-            mixmaster.updateSettings();
-            foreach (MixerStrip strip in mixerStrips)
+            if (stripScroll != null)
             {
-                strip.updateSettings();
-            }
-        }
-
-        public void clearProject(X1Project _project)
-        {
-            project = null;
-            mixmaster.project = null;
-            stop();
-        }
-
-        public void stop() {
-
-            mixmaster.quiet();
-        }
-
-//-----------------------------------------------------------------------------
-
-        private void horizontalAdjust(int adj)
-        {
-            for (int i = 0; i < stripCount; i++)
-            {
-                mixerStrips[i].Left = (MixerStrip.STRIPWIDTH * i) - adj;
+                stripScroll.Maximum = (mixmaster.Left < stripPanel.Width) ? (stripPanel.Width - mixmaster.Left) + THUMBWIDTH : 0;
+                if ((stripScroll.Maximum > THUMBWIDTH) && (stripScroll.Maximum - stripScroll.Value < THUMBWIDTH))
+                {
+                    stripScroll.Value = stripScroll.Maximum - THUMBWIDTH;
+                }
             }
         }
 
         private void MixerWindow_Resize(object sender, EventArgs e)
         {
-            int diff = (mixmaster.Width + stripWidth) - this.ClientSize.Width;      //amount mixmaster is covering mixer strips
-            stripScroll.Width = stripWidth - diff;                                  //resize scroll bar
-            stripScroll.Maximum = diff + stripScroll.LargeChange - 1;
-            if ((stripCount > 1) && (diff < (-1 * mixerStrips[0].Left)))
-            {
-                horizontalAdjust(diff);
-            }
+            stripScroll.Size = new Size(mixmaster.Left, 20);
+            updateScrollBar();
         }
 
-        private void stripScroll_Scroll(object sender, ScrollEventArgs e)
+        void stripScroll_ValueChanged(object sender, EventArgs e)
         {
-            horizontalAdjust(stripScroll.Value);
-            this.Invalidate();
+            stripPanel.Location = new Point(-stripScroll.Value, 0);
         }
 
 //-----------------------------------------------------------------------------
 
         public void addMixerStrip(X1Track track)
         {
-            //this.MaximumSize = new Size(Int32.MaxValue, this.Height);           //allow temp resizing
-
             MixerStrip strip = new MixerStrip(this, track);
             mixerStrips.Add(strip);
             stripPanel.Controls.Add(strip);
             stripCount++;
 
-            //int diff = (mixmaster.Width + stripWidth) - this.ClientSize.Width;      //amount mixmaster is covering mixer strips
-            //if (diff == 0)      //if mixer window is full width
-            //{
-            //    strip.Location = new Point(stripWidth, 0);
-            //    stripWidth = mixerStrips.Count * MixerStrip.STRIPWIDTH;
-            //    stripScroll.Width = stripWidth;
-            //    mixmaster.Location = new Point(stripWidth, 0);
-            //    this.ClientSize = new Size(stripWidth + mixmaster.Width, MixerStrip.STRIPHEIGHT + stripScroll.Height);
-            //}
-            //else
-            //{
-            //    stripWidth = mixerStrips.Count * MixerStrip.STRIPWIDTH;     //respect cur mixer window width
-            //    int leftPos = mixmaster.Left - stripWidth;
-            //    for (int i = 0; i < stripCount; i++)
-            //    {
-            //        mixerStrips[i].Left = leftPos;
-            //        leftPos += MixerStrip.STRIPWIDTH;
-            //    }
-            //    diff += MixerStrip.STRIPWIDTH;              //the amount the mixmaster can cover is now one strip wider
-            //    stripScroll.Maximum = diff + stripScroll.LargeChange - 1;
-            //    stripScroll.Value = diff;
-            //}
-
-            ////set minimum width to width of one track strip so one will always be visible
-            //if (stripCount == 1) {
-            //    this.MinimumSize = new Size(this.Width, this.Height);
-            //}
-            //mixermaxWidth += MixerStrip.STRIPWIDTH;
-            //this.MaximumSize = new Size(mixermaxWidth, this.Height);       //but don't allow mixer to be stretched past strips + master width
+            int xpos = 0;
+            foreach (MixerStrip mixStrip in mixerStrips)
+            {
+                mixStrip.Location = new Point(xpos, 0);
+                xpos += MixerStrip.STRIPWIDTH;
+            }
+            stripPanel.Size = new Size(xpos, MixerStrip.STRIPHEIGHT);
+            this.MaximumSize = new Size((this.Right - mixmaster.Left) + stripPanel.Width, this.Height);
+            updateScrollBar();
             Invalidate();
         }
 
@@ -250,7 +201,33 @@ namespace Signals.UI
             Invalidate();
         }
 
-//- global strip controls ----------------------------------------------------
+        //-----------------------------------------------------------------------------
+
+        public void setProject(X1Project _project)
+        {
+            project = _project;
+            mixmaster.project = project;
+            mixmaster.updateSettings();
+            foreach (MixerStrip strip in mixerStrips)
+            {
+                strip.updateSettings();
+            }
+        }
+
+        public void clearProject(X1Project _project)
+        {
+            project = null;
+            mixmaster.project = null;
+            stop();
+        }
+
+        public void stop()
+        {
+
+            mixmaster.quiet();
+        }
+
+        //- global strip controls ----------------------------------------------------
 
         public void setSoloTrack(MixerStrip strip)
         {
