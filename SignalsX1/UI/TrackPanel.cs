@@ -24,8 +24,9 @@ using System.Text;
 using System.Windows.Forms;
 using System.Drawing;
 using System.Drawing.Drawing2D;
+
 using Signals.Project;
-using Signals.Widgets;
+using Transonic.Widget;
 
 namespace Signals.UI
 {

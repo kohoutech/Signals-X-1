@@ -1,6 +1,6 @@
 ﻿/* ----------------------------------------------------------------------------
-Signals X-1 : a digital audio multitrack recorder
-Copyright (C) 2005-2017  George E Greaney
+Transonic Widget Library
+Copyright (C) 1996-2019  George E Greaney
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License
@@ -26,7 +26,7 @@ using System.Drawing;
 using System.Drawing.Drawing2D;
 using Signals.UI;
 
-namespace Signals.Widgets
+namespace Transonic.Widget
 {
     class LevelMeter : UserControl
     {

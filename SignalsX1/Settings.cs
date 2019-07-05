@@ -1,6 +1,6 @@
 ﻿/* ----------------------------------------------------------------------------
-Transonic Widget Library
-Copyright (C) 1996-2019  George E Greaney
+Signals X-1 : a digital audio multitrack recorder
+Copyright (C) 2005-2019  George E Greaney
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License
@@ -21,13 +21,10 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Windows.Forms;
-using System.Drawing;
-using System.Drawing.Drawing2D;
 
-namespace Transonic.Widget
+namespace Signals
 {
-    class LED : UserControl
+    class Settings
     {
     }
 }
