@@ -1,6 +1,6 @@
 ﻿/* ----------------------------------------------------------------------------
-LibTransWave : a library for playing, editing and storing audio wave data
-Copyright (C) 2005-2017  George E Greaney
+LibTransWave : a library for editing and playing audio wave data
+Copyright (C) 2005-2019  George E Greaney
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License
@@ -106,7 +106,7 @@ namespace Transonic.Wave
         public Waverly(IWaveView _mw)
         {
             waveWindow = _mw;
-            waveDevices = new WaveDevices(this);
+            waveDevices = new WaveDevices();    //new WaveDevices(this);
             WaverlyInit();
         }
 

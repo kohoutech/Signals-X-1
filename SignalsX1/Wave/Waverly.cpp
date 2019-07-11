@@ -1,6 +1,6 @@
 /* ----------------------------------------------------------------------------
-LibTransWave : a library for playing, editing and storing audio wave data
-Copyright (C) 2005-2017  George E Greaney
+LibTransWave : a library for editing editing and storing audio wave data
+Copyright (C) 2005-2019  George E Greaney
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License
@@ -21,7 +21,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #include "Engine\Transport.h"
 #include "System\WaveInDevice.h"
 #include "System\WaveOutDevice.h"
-#include "File\AudioFile.h"
+//#include "File\AudioFile.h"
 
 #include <conio.h>
 
@@ -77,7 +77,7 @@ extern "C" __declspec(dllexport) void TransportSetVolume(float volume) {
 
 extern "C" __declspec(dllexport) void TransportSetBalance(float balance) {
 
-	return Waverly::AWaverly->currentAudioFile->setPan(balance, 0);
+//	return Waverly::AWaverly->currentAudioFile->setPan(balance, 0);
 }
 
 extern "C" __declspec(dllexport) float TransportGetLeftLevel() {
@@ -118,12 +118,14 @@ extern "C" __declspec(dllexport) void AudioClose() {
 
 extern "C" __declspec(dllexport) int AudioGetSampleRate() {
 
-	return Waverly::AWaverly->currentAudioFile->sampleRate;
+//	return Waverly::AWaverly->currentAudioFile->sampleRate;
+	return 0;
 }
 
 extern "C" __declspec(dllexport) int AudioGetDuration() {
 
-	return Waverly::AWaverly->currentAudioFile->duration;
+	//return Waverly::AWaverly->currentAudioFile->duration;
+	return 0;
 }
 
 //-----------------------------------------------------------------------------
@@ -159,7 +161,7 @@ void Waverly::reportStatus(char* source, char* msg)
 
 void Waverly::openAudioFile(char* filename) 
 {
-	currentAudioFile = new AudioFile(this, filename);
+	//currentAudioFile = new AudioFile(this, filename);
 }
 
 void Waverly::closeAudioFile() {

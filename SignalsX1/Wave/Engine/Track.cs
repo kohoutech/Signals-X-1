@@ -24,7 +24,7 @@ using System.Text;
 
 namespace Transonic.Wave.Engine
 {
-    public class Channel
+    public class Track
     {
     }
 }

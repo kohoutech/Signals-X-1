@@ -30,18 +30,15 @@
     <ClCompile Include="System\WaveInDevice.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="File\AudioFile.cpp">
+    <ClCompile Include="Engine\Channel.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\AudioData.cpp">
+    <ClCompile Include="Engine\Track.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Waverly.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Audio\WaveBuffer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Engine\Transport.h">
@@ -53,10 +50,13 @@
     <ClInclude Include="System\WaveInDevice.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="File\AudioFile.h">
+    <ClInclude Include="Engine\Channel.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\AudioData.h">
+    <ClInclude Include="Engine\Track.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="System\WaveBuffer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

@@ -81,8 +81,8 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="Engine\AudioData.cpp" />
-    <ClCompile Include="File\AudioFile.cpp" />
+    <ClCompile Include="Engine\Channel.cpp" />
+    <ClCompile Include="Engine\Track.cpp" />
     <ClCompile Include="System\WaveInDevice.cpp" />
     <ClCompile Include="Waverly.cpp" />
     <ClCompile Include="Engine\Transport.cpp" />
@@ -90,12 +90,12 @@
     <ClCompile Include="System\WaveOutDevice.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Engine\AudioData.h" />
-    <ClInclude Include="File\AudioFile.h" />
+    <ClInclude Include="Engine\Channel.h" />
+    <ClInclude Include="Engine\Track.h" />
+    <ClInclude Include="System\WaveBuffer.h" />
     <ClInclude Include="System\WaveInDevice.h" />
     <ClInclude Include="Waverly.h" />
     <ClInclude Include="Engine\Transport.h" />
-    <ClInclude Include="Audio\WaveBuffer.h" />
     <ClInclude Include="System\WaveOutDevice.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
