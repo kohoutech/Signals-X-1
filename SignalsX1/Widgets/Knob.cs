@@ -29,6 +29,12 @@ namespace Transonic.Widget
 {
     public class Knob : UserControl
     {
+        public double value;
+
+        public Knob()
+        {
+            value = 0.0;
+        }
 
         protected override void OnPaint(PaintEventArgs e)
         {
@@ -36,7 +42,8 @@ namespace Transonic.Widget
             Graphics g = e.Graphics;
             g.SmoothingMode = SmoothingMode.AntiAlias;
 
-            g.FillEllipse(Brushes.Blue, 0, 0, this.Width-1, this.Height-1);
+            g.DrawEllipse(Pens.Black, 0, 0, this.Width - 1, this.Height - 1);
+            g.FillEllipse(Brushes.Gray, 0, 0, this.Width-1, this.Height-1);
         }
     }
 }

@@ -183,13 +183,13 @@ namespace Signals.Project
         public void setLeftOutLevel(float level)
         {
             leftOutLevel = level;
-            waverly.setTransportLeftLevel(level);
+            //waverly.setTransportLeftLevel(level);
         }
 
         public void setRightOutLevel(float level)
         {
             rightOutLevel = level;
-            waverly.setTransportRightLevel(level);
+            //waverly.setTransportRightLevel(level);
         }
 
 //- track management ----------------------------------------------------------

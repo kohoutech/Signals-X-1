@@ -206,7 +206,6 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <None Include="graphics\icon.svg" />
     <None Include="graphics\strip.png" />
     <Content Include="Signals.ico" />
   </ItemGroup>
