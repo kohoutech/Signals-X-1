@@ -29,5 +29,53 @@ namespace Transonic.Widget
 {
     class Slider : UserControl
     {
+        Rectangle trackRect;
+        Rectangle thumbRect;
+
+        public Slider()
+        {
+            trackRect = new Rectangle(0, 0, 20, 100);
+            thumbRect = new Rectangle(0, 0, 80, 25);
+        }
+
+        //- mouse events --------------------------------------------------------------
+
+        protected override void OnMouseDown(MouseEventArgs e)
+        {
+        }
+
+        protected override void OnMouseMove(MouseEventArgs e)
+        {
+        }
+
+        protected override void OnMouseUp(MouseEventArgs e)
+        {
+        }
+
+        //- key events ----------------------------------------------------------------
+
+        protected override void OnKeyDown(KeyEventArgs e)
+        {        
+        }
+
+        protected override void OnKeyUp(KeyEventArgs e)
+        {        
+        }
+        
+//- painting ------------------------------------------------------------------
+
+        protected override void OnPaint(PaintEventArgs e)
+        {
+            base.OnPaint(e);
+            Graphics g = e.Graphics;
+            g.SmoothingMode = SmoothingMode.AntiAlias;
+
+            //paint track
+            g.DrawRectangle(Pens.Black, trackRect); 
+
+            //paint thumb
+            g.DrawRectangle(Pens.Blue, trackRect); 
+        }
     }
+
 }

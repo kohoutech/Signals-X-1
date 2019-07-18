@@ -147,7 +147,7 @@ namespace Signals.UI
             // sldLevel
             // 
             this.sldLevel.BackColor = System.Drawing.Color.Orange;
-            this.sldLevel.Location = new System.Drawing.Point(20, 615);
+            this.sldLevel.Location = new System.Drawing.Point(5, 35);
             this.sldLevel.Name = "sldLevel";
             this.sldLevel.Size = new System.Drawing.Size(50, 250);
             this.sldLevel.TabIndex = 27;
