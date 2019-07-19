@@ -29,12 +29,48 @@ namespace Transonic.Widget
 {
     public class Knob : UserControl
     {
+        Rectangle knobRect;
+
         public double value;
 
         public Knob()
         {
+            knobRect = new Rectangle(0, 0, 100, 100);
             value = 0.0;
+            
         }
+
+        protected override void OnResize(EventArgs e)
+        {
+            base.OnResize(e);
+            knobRect = new Rectangle(0, 0, this.Width - 2, this.Height - 2);
+        }
+
+        //- mouse events --------------------------------------------------------------
+
+        protected override void OnMouseDown(MouseEventArgs e)
+        {
+        }
+
+        protected override void OnMouseMove(MouseEventArgs e)
+        {
+        }
+
+        protected override void OnMouseUp(MouseEventArgs e)
+        {
+        }
+
+        //- key events ----------------------------------------------------------------
+
+        protected override void OnKeyDown(KeyEventArgs e)
+        {
+        }
+
+        protected override void OnKeyUp(KeyEventArgs e)
+        {
+        }
+
+        //- painting ------------------------------------------------------------------
 
         protected override void OnPaint(PaintEventArgs e)
         {
@@ -42,8 +78,15 @@ namespace Transonic.Widget
             Graphics g = e.Graphics;
             g.SmoothingMode = SmoothingMode.AntiAlias;
 
-            g.DrawEllipse(Pens.Black, 0, 0, this.Width - 1, this.Height - 1);
-            g.FillEllipse(Brushes.Gray, 0, 0, this.Width-1, this.Height-1);
+            Pen outlinePen = new Pen(Color.Black, 2.0f);
+
+            g.DrawEllipse(outlinePen, knobRect);
+            g.FillEllipse(Brushes.Gray, knobRect);
+
+            double valX = knobRect.Width / 2;
+            double valY = knobRect.Height / 2;
+
+            g.FillEllipse(Brushes.Red, (float)valX - 2, (float)valY - 2, 5, 5);
         }
     }
 }
