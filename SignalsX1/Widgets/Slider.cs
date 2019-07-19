@@ -29,27 +29,63 @@ namespace Transonic.Widget
 {
     class Slider : UserControl
     {
+        int TRACKWIDTH = 20;
+        int THUMBHEIGHT = 25;
+
         Rectangle trackRect;
         Rectangle thumbRect;
 
+        double value;
+        bool dragging;
+        int dragOrgY;
+        int thumbOrgY;
+
         public Slider()
         {
-            trackRect = new Rectangle(0, 0, 20, 100);
-            thumbRect = new Rectangle(0, 0, 80, 25);
+            this.DoubleBuffered = true;
+
+            value = 0.0;
+            dragging = false;
+            trackRect = new Rectangle(0, 0, TRACKWIDTH, 100);
+            thumbRect = new Rectangle(0, 0, 80, THUMBHEIGHT);
+        }
+
+        protected override void OnResize(EventArgs e)
+        {
+            base.OnResize(e);
+            trackRect.Location = new Point((this.Width - TRACKWIDTH)/2, 0);
+            trackRect.Size = new Size(TRACKWIDTH, this.Height);
+            thumbRect.Size = new Size(this.Width, THUMBHEIGHT);
         }
 
         //- mouse events --------------------------------------------------------------
 
         protected override void OnMouseDown(MouseEventArgs e)
         {
+            if (thumbRect.Contains(e.X, e.Y))
+            {
+                dragOrgY = e.Y;
+                thumbOrgY = thumbRect.Y;
+                dragging = true;
+            }
         }
 
         protected override void OnMouseMove(MouseEventArgs e)
         {
+            if (dragging)
+            {
+                int deltaY = e.Y - dragOrgY;
+                int thumbY = thumbOrgY + deltaY;
+                if (thumbY < 0) thumbY = 0;
+                if (thumbY > trackRect.Height) thumbY = trackRect.Height;
+                thumbRect.Location = new Point(0, thumbY);
+                Invalidate();
+            }
         }
 
         protected override void OnMouseUp(MouseEventArgs e)
         {
+            dragging = false;
         }
 
         //- key events ----------------------------------------------------------------
@@ -71,10 +107,10 @@ namespace Transonic.Widget
             g.SmoothingMode = SmoothingMode.AntiAlias;
 
             //paint track
-            g.DrawRectangle(Pens.Black, trackRect); 
+            g.FillRectangle(Brushes.Black, trackRect); 
 
             //paint thumb
-            g.DrawRectangle(Pens.Blue, trackRect); 
+            g.FillRectangle(Brushes.Blue, thumbRect);             
         }
     }
 
