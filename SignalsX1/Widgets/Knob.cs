@@ -78,15 +78,24 @@ namespace Transonic.Widget
             Graphics g = e.Graphics;
             g.SmoothingMode = SmoothingMode.AntiAlias;
 
+
+
+            Bitmap knobBitmap = new Bitmap(knobRect.Height-4, knobRect.Width-4);
+            Graphics knobg = Graphics.FromImage(knobBitmap);
+            knobg.SmoothingMode = SmoothingMode.AntiAlias;
+
             Pen outlinePen = new Pen(Color.Black, 2.0f);
+            knobg.DrawEllipse(outlinePen, 0, 0, knobBitmap.Width, knobBitmap.Height);
+            knobg.FillEllipse(Brushes.Gray, 0, 0, knobBitmap.Width, knobBitmap.Height);
 
-            g.DrawEllipse(outlinePen, knobRect);
-            g.FillEllipse(Brushes.Gray, knobRect);
+            double valX = knobBitmap.Width / 2;
+            double valY = knobBitmap.Height / 2;
+            knobg.FillEllipse(Brushes.Red, 2, (float)valY - 2, 5, 5);
 
-            double valX = knobRect.Width / 2;
-            double valY = knobRect.Height / 2;
-
-            g.FillEllipse(Brushes.Red, (float)valX - 2, (float)valY - 2, 5, 5);
+            knobg.TranslateTransform((float)knobBitmap.Width / 2, (float)knobBitmap.Height / 2);
+            knobg.RotateTransform(120);
+            knobg.TranslateTransform(-(float)knobBitmap.Width / 2, -(float)knobBitmap.Height / 2);
+            g.DrawImage(knobBitmap, new Point(1, 1));
         }
     }
 }
