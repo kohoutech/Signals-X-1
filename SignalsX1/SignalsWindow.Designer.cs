@@ -216,8 +216,8 @@
             // redoEditMenuItem
             // 
             this.redoEditMenuItem.Name = "redoEditMenuItem";
-            this.redoEditMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift)
-                        | System.Windows.Forms.Keys.Z)));
+            this.redoEditMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift) 
+            | System.Windows.Forms.Keys.Z)));
             this.redoEditMenuItem.Size = new System.Drawing.Size(174, 22);
             this.redoEditMenuItem.Text = "&Redo";
             this.redoEditMenuItem.Click += new System.EventHandler(this.redoEditMenuItem_Click);
@@ -285,7 +285,7 @@
             // 
             this.mixerViewMenuItem.Name = "mixerViewMenuItem";
             this.mixerViewMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.M)));
-            this.mixerViewMenuItem.Size = new System.Drawing.Size(176, 22);
+            this.mixerViewMenuItem.Size = new System.Drawing.Size(177, 22);
             this.mixerViewMenuItem.Text = "Mi&xer View";
             this.mixerViewMenuItem.Click += new System.EventHandler(this.mixerViewMenuItem_Click);
             // 
@@ -298,13 +298,13 @@
             this.importTracksMenuItem});
             this.trackMenuItem.Enabled = false;
             this.trackMenuItem.Name = "trackMenuItem";
-            this.trackMenuItem.Size = new System.Drawing.Size(47, 20);
+            this.trackMenuItem.Size = new System.Drawing.Size(46, 20);
             this.trackMenuItem.Text = "&Track";
             // 
             // newTrackMenuItem
             // 
             this.newTrackMenuItem.Name = "newTrackMenuItem";
-            this.newTrackMenuItem.Size = new System.Drawing.Size(146, 22);
+            this.newTrackMenuItem.Size = new System.Drawing.Size(145, 22);
             this.newTrackMenuItem.Text = "&New Track";
             this.newTrackMenuItem.Click += new System.EventHandler(this.newTrackMenuItem_Click);
             // 
@@ -312,7 +312,7 @@
             // 
             this.deleteTrackMenuItem.Enabled = false;
             this.deleteTrackMenuItem.Name = "deleteTrackMenuItem";
-            this.deleteTrackMenuItem.Size = new System.Drawing.Size(146, 22);
+            this.deleteTrackMenuItem.Size = new System.Drawing.Size(145, 22);
             this.deleteTrackMenuItem.Text = "&Delete Track";
             this.deleteTrackMenuItem.Click += new System.EventHandler(this.deleteTrackMenuItem_Click);
             // 
@@ -320,14 +320,14 @@
             // 
             this.copyTrackMenuItem.Enabled = false;
             this.copyTrackMenuItem.Name = "copyTrackMenuItem";
-            this.copyTrackMenuItem.Size = new System.Drawing.Size(146, 22);
+            this.copyTrackMenuItem.Size = new System.Drawing.Size(145, 22);
             this.copyTrackMenuItem.Text = "&Copy Track";
             this.copyTrackMenuItem.Click += new System.EventHandler(this.copyTrackMenuItem_Click);
             // 
             // importTracksMenuItem
             // 
             this.importTracksMenuItem.Name = "importTracksMenuItem";
-            this.importTracksMenuItem.Size = new System.Drawing.Size(146, 22);
+            this.importTracksMenuItem.Size = new System.Drawing.Size(145, 22);
             this.importTracksMenuItem.Text = "&Import Tracks";
             this.importTracksMenuItem.Click += new System.EventHandler(this.importTrackMenuItem_Click);
             // 
@@ -337,13 +337,13 @@
             this.settingsTransportMenuItem});
             this.transportMenuItem.Enabled = false;
             this.transportMenuItem.Name = "transportMenuItem";
-            this.transportMenuItem.Size = new System.Drawing.Size(69, 20);
+            this.transportMenuItem.Size = new System.Drawing.Size(68, 20);
             this.transportMenuItem.Text = "Trans&port";
             // 
             // settingsTransportMenuItem
             // 
             this.settingsTransportMenuItem.Name = "settingsTransportMenuItem";
-            this.settingsTransportMenuItem.Size = new System.Drawing.Size(169, 22);
+            this.settingsTransportMenuItem.Size = new System.Drawing.Size(168, 22);
             this.settingsTransportMenuItem.Text = "&Transport Settings";
             this.settingsTransportMenuItem.Click += new System.EventHandler(this.settingsTransportMenuItem_Click);
             // 

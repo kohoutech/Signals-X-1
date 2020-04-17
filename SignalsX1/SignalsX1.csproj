@@ -52,7 +52,7 @@
     <StartupObject />
   </PropertyGroup>
   <PropertyGroup>
-    <ApplicationIcon>Signals.ico</ApplicationIcon>
+    <ApplicationIcon>signalsX1.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -206,6 +206,7 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="signalsX1.ico" />
     <None Include="graphics\strip.png" />
     <Content Include="Signals.ico" />
   </ItemGroup>
@@ -233,6 +234,12 @@
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PostBuildEvent>if $(ConfigurationName) == Release (
+  $(TargetDir)\alpha.bat
+)
+</PostBuildEvent>
+  </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">
